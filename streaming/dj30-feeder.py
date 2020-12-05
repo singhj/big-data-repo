@@ -25,5 +25,4 @@ class CloseFeed:
 dj30CloseFeed = CloseFeed(dj30)
 
 for close in dj30CloseFeed.getClose():
-    print (close, file=sys.stdout)
-    sys.stdout.flush()
+    print (close, flush = True)
