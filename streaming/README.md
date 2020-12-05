@@ -1,4 +1,4 @@
-# Streaming Functions
+# Streaming Problems
 
 ## Netcat pipes
 
@@ -16,22 +16,33 @@ Into the sender terminal, type
 
 The sender is now set up to send a data stream on port 9999. After this, anything you type into the sender terminal will be echoed on the receiver terminal.
 
-This is a good time to try the next step: run word-count in pyspark, listening on port 9999. Now if you type something into the sender terminal, it will make its way to spark streaming.
+This is a good time to try the next step: run word-count in pyspark, listening on port 9999. This will confirm that your environment is established and is working correctly. If you type something into the sender terminal, it will make its way to spark streaming.
+
+## Installing Dependencies
+
+Please install `pip3`, `pandas` and `feedparser` on the master of your cluster:
+
+    sudo apt-get install python3-pip
+    pip3 install pandas
+    pip3 install feedparser
+
+Also `git clone` this repo with
+
+    git clone https://github.com/singhj/big-data-repo
 
 ## DJ-30
 To simulate a data stream, you are given a python program dj30-feeder.py which reads in dj30.csv file and pipes it, line by line. dj30.csv contains a 25-year history of the Dow Jones Industrial Average prices. 
 
 We will be using the netcat utility (nc) to pipe a stream into Spark. The syntax is
 
-    ./dj30-feeder.py  | nc localhost 9999
+    ./streaming/dj30-feeder.py  | nc localhost 9999
 
-If you would like to see the data as they are being pushed into the pipe, you may use
+If you would like to see the data in the sender terminal (in addition to the receiver terminal) as they are being pushed into the pipe, you may use
 
-    ./dj30-feeder.py  | tee /dev/stderr | nc localhost 9999 
+    ./streaming/dj30-feeder.py  | tee /dev/stderr | nc localhost 9999 
 
-Get the streaming functions and bring them into the master machine of your spark cluster.
 
 ## News feed
 Similarly, run `news-feeder.py | nc localhost 9999` to feed the news into a pyspark DStream.
 
-    ./news-feeder.py  | tee /dev/stderr | nc localhost 9999
+    ./streaming/news-feeder.py  | tee /dev/stderr | nc localhost 9999
