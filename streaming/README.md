@@ -22,7 +22,7 @@ This is a good time to try the next step: run word-count in pyspark, listening o
 
 Please install `pip3`, `pandas` and `feedparser` on the master of your cluster:
 
-    sudo apt-get install python3-pip
+    sudo apt-get install -y python3-pip
     pip3 install pandas
     pip3 install feedparser
 
