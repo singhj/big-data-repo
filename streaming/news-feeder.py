@@ -18,7 +18,7 @@ class Feed:
     def getHeadline(self):
         d = feedparser.parse (self.url)
         for post in d.entries:
-            time.sleep(0.25)
+            time.sleep(1.0)
             ret = (datetime.datetime.now().time(), self.name, post.title, post.link)
             yield ret
 

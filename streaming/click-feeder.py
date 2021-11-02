@@ -4,6 +4,7 @@ import time, datetime
 import random
 import math
 
+random.seed(314159)
 class Event:
     def __init__(self, sender, msg, at):
         self.sender = sender
