@@ -127,6 +127,7 @@ def lda_train(result_tfidf):
 def model_show(tokens, model):
     from pyspark.ml.feature import CountVectorizer
     from pyspark.sql.functions import udf
+    from pyspark.sql.types import ArrayType
 
     df_txts = sqlContext.createDataFrame(tokens, ["list_of_words",'index'])
     cv = CountVectorizer(inputCol="list_of_words", outputCol="wrd_index", vocabSize=2000)
