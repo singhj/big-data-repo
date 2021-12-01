@@ -9,7 +9,7 @@ sc = spark.sparkContext
 from pyspark.sql.types import *
 
 #
-# To begin:
+# To prepare the environment and the data:
 #     git config --global user.email "j.singh@datathinks.org"
 #     git config --global user.name "singhj"
 #
@@ -17,18 +17,21 @@ from pyspark.sql.types import *
 # ~/big-data/text-proc/reviews_setup.sh
 #
 
-# To test:
+# To run LDA:
 test = '''
 from lda import spark, sc, retrieve, tokenize, tfidf, lda_train, model_show
 
+# Load the data from HDFS into a Spark DataFrame
 data = retrieve(sc)
 data.printSchema()
 
 tokens = tokenize(data)
 result_tfidf = tfidf(sc, tokens)
 
+# Train the model
 model = lda_train(result_tfidf)
 
+# Inspect the results
 topics_mapped = model_show(tokens, model)
 
 '''
@@ -51,28 +54,6 @@ from pyspark.sql.types import *
 
 def retrieve(sc):
     import os    
-    schema = StructType() \
-      .add("rec",IntegerType(),True) \
-      .add("Clothing ID",IntegerType(),True) \
-      .add("Age",IntegerType(),True) \
-      .add("Title",StringType(),True) \
-      .add("Review Text",StringType(),True) \
-      .add("Rating",IntegerType(),True) \
-      .add("Recommended IND",IntegerType(),True) \
-      .add("Positive Feedback Count",IntegerType(),True) \
-      .add("Division Name",StringType(),True) \
-      .add("Department Name",StringType(),True) \
-      .add("Class Name",StringType(),True)
-
-    # row_rdd = spark.sparkContext \
-        # .textFile("/user/j_singh/reviews.csv") \
-        # .zipWithIndex() \
-        # .filter(lambda row: row[1] >= 1) \
-        # .map(lambda row: row[0])
-
-    # data = spark.read.csv(row_rdd).schema(schema)
-
-
     data = spark.read.format("csv") \
           .options(header='true', inferschema='true') \
           .load(os.path.realpath("/user/j_singh/reviews.csv"))
@@ -144,4 +125,3 @@ def model_show(tokens, model):
     udf_map_termID_to_Word = udf(map_termID_to_Word , ArrayType(StringType()))
     topics_mapped = topics.withColumn("topic_desc", udf_map_termID_to_Word(topics.termIndices))
     return topics_mapped
-
