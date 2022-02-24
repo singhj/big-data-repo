@@ -41,7 +41,10 @@ def main(argv):
             # ignore/discard this line
             pass
 
-    pp.pprint(wcss)
+    for fnam in wcss:
+        wcs = dict(wcss[fnam])
+        print (fnam)
+        pp.pprint (wcs)
 
 if __name__ == "__main__":
     main(sys.argv)
