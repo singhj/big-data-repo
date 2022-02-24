@@ -2,7 +2,7 @@
 
 import sys
 import os
-import re
+import re, string
 import collections
 
 import requests
@@ -12,6 +12,7 @@ stopwords = list(stopwords)
 
 def main(argv):
     line = sys.stdin.readline()
+    remove_chars = set(string.punctuation)
     pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
     try:
         while line:
@@ -23,6 +24,8 @@ def main(argv):
                 phrase = line.split('|')[1]
             # remove leading and trailing whitespace
             phrase = phrase.strip()
+            exclude = set(string.punctuation)
+            phrase = ''.join(ch for ch in phrase if ch not in exclude)
             # split the phrase into words
             words = [word.lower() for word in phrase.split()]
             mapout(filename, words)

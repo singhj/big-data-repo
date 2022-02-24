@@ -44,7 +44,7 @@ def main(argv):
     for fnam in wcss:
         wcs = dict(wcss[fnam])
         print (fnam)
-        pp.pprint (wcs)
+        pp.pprint ({k: v for k, v in sorted(wcs.items(), key=lambda x: x[1])})
 
 if __name__ == "__main__":
     main(sys.argv)
