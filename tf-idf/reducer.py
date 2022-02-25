@@ -44,13 +44,9 @@ def main(argv):
     for fnam in wcss:
         wcs = wcss[fnam]
         print (fnam)
-        # print (wcs.most_common())
         wordcounts = list(wcs.most_common())
         for wc in wordcounts:
             print (wc)
-        # sorted_words = dict(sorted(dict(wcs).items(), key=lambda x: x[1], reverse=True))
-        # for w in sorted_words:
-            # print (w, sorted_words[w])
 
 if __name__ == "__main__":
     main(sys.argv)
