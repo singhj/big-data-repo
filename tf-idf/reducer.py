@@ -2,6 +2,7 @@
 """reducer.py"""
 
 # python mapper.py < input.txt | sort | python reducer.py
+# hadoop jar /usr/lib/hadoop/hadoop-streaming.jar -files mapper.py,reducer.py -mapper mapper.py -reducer reducer.py -input /user/inputs/inaugs.tar.gz -output /user/j_singh/inaugs
 
 import collections
 from operator import itemgetter
@@ -41,12 +42,25 @@ def main(argv):
             # ignore/discard this line
             pass
 
-    for fnam in wcss:
+    tfidf = calculateTFIDF() # Implement this function
+    show_result(wcss, tfidf)
+
+def calculateTFIDF():
+    return None
+
+def show_result(wcss, tfidf = None):
+    for fnam in sorted(wcss):
         wcs = wcss[fnam]
-        print (fnam)
-        wordcounts = list(wcs.most_common())
-        for wc in wordcounts:
-            print (wc)
+        print ('\n\n', fnam)
+        if tfidf is None:
+            sorted_wcs = dict( sorted(wcs.items(), key = lambda item: item[1], reverse = True))
+            for w in sorted_wcs:
+                print (w, sorted_wcs[w])
+        else:
+            sorted_tfidf = dict( sorted(tfidf[fnam].items(), key = lambda item: item[1], reverse = True))
+            for w in sorted_tfidf:
+                if sorted_tfidf[w] > 0.0:
+                    print (w, sorted_tfidf[w])
 
 if __name__ == "__main__":
     main(sys.argv)
