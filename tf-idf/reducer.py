@@ -24,10 +24,8 @@ def main(argv):
         line_ = line.strip()
 
         # parse the input we got from mapper.py
-        mapkey, count = line_.split('\t', 1)
-        mapkey = mapkey.replace('mapout: ','')
+        _, word, fnam, count = line_.split('\t', 3)
 
-        word, fnam = mapkey.split('|')
         # convert count (currently a string) to int
         try:
             count = int(count)
@@ -42,25 +40,25 @@ def main(argv):
             # ignore/discard this line
             pass
 
-    tfidf = calculateTFIDF() # Implement this function
-    show_result(wcss, tfidf)
+    tfidf = calculateTFIDF(wcss) # Implement this function
 
-def calculateTFIDF():
-    return None
-
-def show_result(wcss, tfidf = None):
+def calculateTFIDF(wcss):
+    expected = '''
+    fnam1
+        word1 tfidf1
+        word2 tfidf2
+        word3 tfidf3
+          ::
+        wordn tfidfn
+    '''
+    
     for fnam in sorted(wcss):
         wcs = wcss[fnam]
         print ('\n\n', fnam)
-        if tfidf is None:
-            sorted_wcs = dict( sorted(wcs.items(), key = lambda item: item[1], reverse = True))
-            for w in sorted_wcs:
-                print (w, sorted_wcs[w])
-        else:
-            sorted_tfidf = dict( sorted(tfidf[fnam].items(), key = lambda item: item[1], reverse = True))
-            for w in sorted_tfidf:
-                if sorted_tfidf[w] > 0.0:
-                    print (w, sorted_tfidf[w])
+        sorted_wcs = dict( sorted(wcs.items(), key = lambda item: item[1], reverse = True))
+        for w in sorted_wcs:
+            print (w, sorted_wcs[w])
+    return None
 
 if __name__ == "__main__":
     main(sys.argv)

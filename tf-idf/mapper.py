@@ -38,9 +38,7 @@ def mapout(filename, words):
     list_ = [itm for itm in words if itm not in stopwords]
     wcs =  dict(collections.Counter(list_))
     for word in wcs:
-        z='%s|%s' % (word, filename)
-        print ("mapout: " + '%s\t%s' % (z, str(wcs[word])))
-    return dict(collections.Counter(wcs))
+        print ('mapout:\t%s\t%s\t%s' % (word, filename, str(wcs[word])))
 
 if __name__ == "__main__":
     main(sys.argv)
