@@ -26,6 +26,8 @@ def main(argv):
             phrase = phrase.strip()
             exclude = set(string.punctuation)
             phrase = ''.join(ch for ch in phrase if ch not in exclude)
+            # Remove non-ascii characters. https://stackoverflow.com/a/20078869/653651
+            phrase = re.sub(r'[^\x00-\x7F]+',' ', phrase)
             # split the phrase into words
             words = [word.lower() for word in phrase.split()]
             mapout(filename, words)
