@@ -4,7 +4,7 @@ from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
 
 # Create a local StreamingContext with two working thread and batch interval of 5 seconds
-sc = SparkContext("local[2]", "NetworkWordCount")
+sc = SparkContext.getOrCreate()
 ssc = StreamingContext(sc, 5)
 
 def setup_stream():
@@ -21,9 +21,9 @@ def setup_stream():
     # Print the first ten elements of each RDD generated in this DStream to the console
     wordCounts.pprint()
 
-def launch_stream():
-    ssc.start()             # Start the computation
-    ssc.awaitTermination()  # Wait for the computation to terminate
+def launch_stream(wait):
+    ssc.start()                 # Start the computation
+    ssc.awaitTermination(wait)  # Wait for the computation to terminate
 
 
 
