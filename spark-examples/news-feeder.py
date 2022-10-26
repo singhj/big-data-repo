@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 import sys
 import feedparser, time, datetime
+import re, string
 import pandas as pd
+import requests
+stopwords_list = requests.get("https://gist.githubusercontent.com/rg089/35e00abf8941d72d419224cfd5b5925d/raw/12d899b70156fd0041fa9778d657330b024b959c/stopwords.txt").content
+stopwords = set(stopwords_list.decode().splitlines())
+
 
 class Feed:
     name = ''
@@ -18,7 +23,7 @@ class Feed:
     def getHeadline(self):
         d = feedparser.parse (self.url)
         for post in d.entries:
-            time.sleep(1.0)
+            time.sleep(1.0)  ###### change or comment out this line as appropriate ######
             ret = (datetime.datetime.now().time(), self.name, post.title, post.link)
             yield ret
 
@@ -61,7 +66,12 @@ for feed in feeds:
 '''
 
 titles = []
+
 for feed in feeds:
     for (tt, name, title, link) in feed.getHeadline():
-        print (title, flush = True)
+        for character in string.punctuation:
+            title = title.replace(character, '')
 
+        words = [wrd.lower() for wrd in title.split(' ') if wrd not in stopwords]
+        title = ' '.join(words)
+        print (title, flush = True)
