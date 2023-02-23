@@ -61,7 +61,7 @@ git clone https://github.com/singhj/big-data-repo.git
 
 ## Moving Files to HDFS
 
-To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/singhj` 
+To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/singhj/five-books` 
 
     hadoop fs -mkdir  /user/singhj/five-books            # create directory five-books in HDFS
     hadoop fs -put five-books/* /user/singhj/five-books  # put the contents of five-books into HDFS
@@ -84,7 +84,7 @@ The objective of this step is to verify that we have a good installation of `had
 
 The command is
 
-    hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount five-books /books-count
+    hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/singhj/five-books /books-count
 
 Hadoop uses hdfs as its (distributed) file system. The directory /books-count is created by the above command and must not already exist!
 
