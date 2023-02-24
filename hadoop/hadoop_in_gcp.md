@@ -140,6 +140,17 @@ To use it, execute
 ```
 mapred streaming -file ~/big-data-repo/hadoop/mapper.py -mapper mapper.py -input /user/singhj/five-books -reducer aggregate -output /books-stream-count
 ```
+Explanation of the command line: the command line should be interpreted as follows:
+
+| Argument   | Explanation |
+|:-----------|-------------|
+| `-file`    | The absolute pathname of the file on the cluster master. Make the file (mapper, reducer, or combiner executable) available locally on each worker node |
+| `-mapper`  | The name of the mapper file *sans* pathname, `mapper.py` in this case |
+| `-reducer` | The name of the reducer file *sans* pathname, `reducer.py` in this case |
+| `-input`   | The HDFS pathname of the directory that holds the input files. The files must already be in HDFS. |
+| `-output`  | The HDFS pathname of the directory that will hold the output files. The directory is created by the command. |
+
+
 The directory `/books-stream-count` is created in HDFS by the above command and must not already exist! The `mapred` command will fail if the output directory exists. Often you can just rerun the command with a different directory name
 
 After execution, copy the contents of `/books-stream-count` to the cluster master with
