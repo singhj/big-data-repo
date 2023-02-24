@@ -140,12 +140,24 @@ To use it, execute
 ```
 mapred streaming -file ~/big-data-repo/hadoop/mapper.py -mapper mapper.py -input /user/singhj/five-books -reducer aggregate -output /books-stream-count
 ```
-The directory myOutputDir is created by the above command and must not already exist! The `mapred` command will fail if the output directory exists. Often you can just rerun the command with a different directory name
+The directory `/books-stream-count` is created in HDFS by the above command and must not already exist! The `mapred` command will fail if the output directory exists. Often you can just rerun the command with a different directory name
 
-After execution, copy the contents of myOutputDir to the cluster master with
+After execution, copy the contents of `/books-stream-count` to the cluster master with
 ```
-hadoop fs -get myOutputDir 
+hadoop fs -get /books-stream-count
 ```
+## Writing our own reducer
+
+A sample reducer is available in `~/big-data-repo/hadoop/reducer.py`
+
+To use it, execute
+```
+mapred streaming -file ~/big-data-repo/hadoop/mapper.py  -mapper mapper.py   \
+                 -file ~/big-data-repo/hadoop/reducer.py -reducer reducer.py \
+                 -input /user/singhj/five-books \
+                 -output /books-my-own-counts
+```
+After execution, copy the contents of `/books-my-own-counts` as before.
 
 **And don’t forget to delete the cluster at the end!**
 
@@ -163,22 +175,5 @@ Students have run into the following hurdles in the past:
 ```
 *    **Line endings.** Program files that were created on Windows machines often have Windows-style line endings that Hadoop doesn’t like. [Here](https://www.maketecheasier.com/convert-files-from-linux-format-windows/) are some ways of fixing it.
 
-
-
-A
-A
-A
-B
-B
-B
-B
-B
-B
-B
-B
-B
-B
-B
-B
 The books files are now on the cluster master.
 
