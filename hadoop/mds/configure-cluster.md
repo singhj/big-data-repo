@@ -2,7 +2,7 @@
 
 The GCP service that includes Hadoop (and Spark) is called DataProc. To launch it and use it, you need to
 
-1. Obtain a Cluster,
+1. Obtain a Cluster by visiting <a href="https://console.cloud.google.com/dataproc/" target="_blank">Google DataProc</a> and clicking on CREATE CLUSTER.
     * specify where (i.e., what region) it should run,
     * how many workers is should have (in additional to the master),
     * the type of CPU the master should be, and with how much memory and storage

@@ -23,7 +23,8 @@ Once you have gone through these steps, you will have created a *baseline config
     * Your project should already be chosen
     * ![](https://raw.githubusercontent.com/singhj/big-data-repo/main/hadoop/images/start_dataproc.png)
     * Click on CREATE CLUSTER
-    * This [page](https://cloud.google.com/blog/topics/training-certifications/new-trainings-teach-you-the-basics-of-architecting-on-google-cloud) explains the options the next screene presents. choose Cluster on Compute Engine. 
+    * This [page](https://cloud.google.com/blog/topics/training-certifications/new-trainings-teach-you-the-basics-of-architecting-on-google-cloud) explains the options the next screen presents.
+    Choose <i>Cluster on Compute Engine</i>. 
      ![](https://raw.githubusercontent.com/singhj/big-data-repo/main/hadoop/images/create_dataproc_cluster.png)
     * specify where (i.e., what region) it should run,
     * how many workers is should have (in additional to the master),
@@ -48,23 +49,26 @@ Once the cluster has been launched, it will show up under Clusters
     * Wait for it to become “live.”
     * Click on SSH when it is enabled. (If in doubt, choose ‘Open in a Browser Window’)
     * This opens a bash (linux) shell into the master machine.
+    * Run `hadoop version` in the shell to determine the version. (On 2/24/23, it was Hadoop 3.2.3. Make sure to consult documentation for [that version](https://hadoop.apache.org/docs/r3.2.3/hadoop-streaming/HadoopStreaming.html)
 
-Staging Input Files
+
+## Stage Input Files
 There are multiple systems involved. Always be aware of where you are:
 
-What machine are you on?
-What is your current directory?
-What system are you using?
-Use gsutil cp (or cURL, or git clone, etc.) to bring files to the Cluster Master, for example,
-
+* What machine are you on?
+* What is your current directory?
+* Use `gsutil cp` (or `cURL`, or `git clone`, etc.) to bring files to the Cluster Master, for example,
+```
 git clone https://github.com/singhj/big-data-repo.git
+```
 
-## Moving Files to HDFS
+## Move Input Files to HDFS
 
 To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/singhj/five-books` 
 
-    hadoop fs -mkdir  /user/singhj/five-books            # create directory five-books in HDFS
-    hadoop fs -put five-books/* /user/singhj/five-books  # put the contents of five-books into HDFS
+    hadoop fs -mkdir /user/singhj
+    hadoop fs -mkdir /user/singhj/five-books                             # create directory five-books in HDFS
+    hadoop fs -put ~/big-data-repo/five-books/* /user/singhj/five-books  # put the contents of five-books into HDFS
 
 Verify that the files got there:
 
@@ -104,6 +108,10 @@ Depending on the configuration and the problem, you may get just one `part-r-000
 
 ## Writing our own mapper
 
+We will use Hadoop Streaming for this. Hadoop Streaming fits into the Hadoop architecture as shown below:
+![](https://raw.githubusercontent.com/singhj/big-data-repo/main/hadoop/images/mrs5.png). Courtesy, <a href="https://nancyyanyu.github.io/posts/f53c188b/">Nancy Yanyu</a>
+
+Hadoop Streaming provides hooks for plugging in your own mapper and reducer into Hadoop. The mapper hook sends 
 The objective of this step is to verify that hadoop streaming is properly installed. If this step doesn't work, pause and correct the error before proceeding.
 
 Mapper code is
@@ -128,11 +136,9 @@ if __name__ == "__main__":
 
 ```
 
-To run it,
+To use it, execute
 ```
-mapred streaming -input myInputDirs -output myOutputDir \
-  -file myPythonScript.py -mapper myPythonScript.py \
-  -reducer aggregate
+mapred streaming -file ~/big-data-repo/hadoop/mapper.py -mapper mapper.py -input /user/singhj/five-books -reducer aggregate -output /books-stream-count
 ```
 The directory myOutputDir is created by the above command and must not already exist! The `mapred` command will fail if the output directory exists. Often you can just rerun the command with a different directory name
 
