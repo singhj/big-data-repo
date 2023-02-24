@@ -142,7 +142,7 @@ mapred streaming -file ~/big-data-repo/hadoop/mapper.py -mapper mapper.py \
                  -input /user/singhj/five-books -reducer aggregate \
                  -output /books-stream-count
 ```
-**Explanation**: the command line arguments should be interpreted as follows:
+**Explanation**: the command line arguments should be interpreted as follows. More details [here](https://hadoop.apache.org/docs/r3.2.3/hadoop-streaming/HadoopStreaming.html#Streaming_Command_Options).
 
 | Argument   | Explanation |
 |:-----------|-------------|
