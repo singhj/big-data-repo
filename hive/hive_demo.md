@@ -25,28 +25,29 @@ The GCP service that includes Hive (and Hadoop and Spark) is called DataProc. To
 ```
 5. Run Word Count
 ```
-    hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/books /user/j_singh/books-count-hive
-    hadoop fs -ls /user/j_singh/books-count-hive
+    hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/singhj/five-books /user/singhj/books-count-hive
+    hadoop fs -ls /user/singhj/books-count-hive
 ```
 
 6. Invoke hive from the command line by typing `hive`
 
 ```
-    Hive Session ID = 16f9450f-0059-487c-9706-ea02a6b02932
+    j_singh@cluster-451b-m:~$ hive
+    Hive Session ID = 3ff838e3-5da0-41ac-95eb-01a9a7613add
 
     Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
-    Hive Session ID = 3f159de0-7408-4734-90b5-7bc45338e504
+    Hive Session ID = 44e8df4f-7cad-435d-8ed2-03f7811d782a
+    hive>
 ```
-7. Declare an external table `bookscount` that binds to the contents of the directory `/user/j_singh/books-count-hive`
+7. Declare an external table `bookscount` and bind it to the contents of the directory `/user/singhj/books-count-hive`
 ```
+    CREATE EXTERNAL TABLE bookscount (word string, count int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' LOCATION '/user/singhj/books-count-hive';
     OK
-    Time taken: 1.735 seconds
-    hive > CREATE EXTERNAL TABLE bookscount (word string, count int) \
-               ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' LOCATION '/user/j_singh/books-count';   
+    Time taken: 0.572 seconds
+    hive> 
 ```
-8. Bind `bookscount` table metadata to `/user/j_singh/books-count`
+8. The `bookscount` table can be queried as if it were a SQL table, invoking equivalent mapreduce jobs 
 
-Runs a SQL-like Query. It invokes mapreduce jobs as needed
 ```
     SELECT word, count FROM bookscount where count > 2000 SORT BY count DESC;
 
