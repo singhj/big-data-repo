@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import re
+import string
 
-def clean_text(text):
+def clean(text):
+    print(text)
     text = text.lower()
     text = re.sub('\[.*?\]', '', text)
     text = re.sub('[%s]' % re.escape(string.punctuation), ' ', text)
