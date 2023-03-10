@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 import re
+
 def clean_text(text):
     text = text.lower()
     text = re.sub('\[.*?\]', '', text)
