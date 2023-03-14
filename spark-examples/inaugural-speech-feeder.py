@@ -5,6 +5,7 @@ import random
 import time
 import pathlib
 
+sys.stdout.reconfigure(encoding='utf-8')
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 print (sys.path)
 
