@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Source: https://github.com/apache/spark/blob/v3.3.2/examples/src/main/python/streaming/network_wordcount.py
 # Downloaded 3/15/2023 by jitendra.singh@tufts.edu
 #
