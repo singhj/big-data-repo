@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys
+import sys, tqdm
 import nltk
 import random
 import time
@@ -34,6 +34,10 @@ fileids = nltk.corpus.inaugural.fileids()
 
 def random_delay(avg):
     return random.normalvariate(float(avg), 0.15*float(avg))
+
+from tqdm import tqdm
+for left in tqdm(range(120)):
+    time.sleep(1)
 
 for fileid in fileids:
     # Sentences
