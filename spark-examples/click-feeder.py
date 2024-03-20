@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-from click_gen import *
+import importlib
+clickgen = importlib.import_module("click-gen")
+
+from clickgen import *
 max_evs = 60           # Total number of events that will be generated. 
                        # If you want to make it run forever, set this number to like a million
 
