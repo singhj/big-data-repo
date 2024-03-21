@@ -46,7 +46,7 @@ if __name__ == "__main__":
     
     host = sys.argv[1]
     port = int(sys.argv[2])
-    print ('host', host, 'port', port)
+    print ('host', type(host), host, 'port', type(port), port)
 
     sc_bak = SparkContext.getOrCreate()
     sc_bak.stop()
@@ -55,11 +55,13 @@ if __name__ == "__main__":
     print ('Ready to work!')
 
     ctx = pyspark.SparkContext(appName = "Netcat Wordcount", master="local[*]")
+    print ('Context', ctx)
+
     spark = SparkSession(ctx).builder.getOrCreate()
     sc = spark.sparkContext
 
-    print ('65 Session:', spark)
-    print ('66 sc', sc)
+    print ('Session:', spark)
+    print ('SparkContext', sc)
     
     # sc = SparkContext(conf=conf)
 

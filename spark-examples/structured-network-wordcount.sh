@@ -2,5 +2,5 @@
 
 # Created 3/13/2024 by jitendra.singh@tufts.edu
 #
-`which spark-submit` /h/`whoami`/big-data-repo/spark-examples/structured-network-wordcount.py localhost 9999
+`which spark-submit` ~/big-data-repo/spark-examples/structured-network-wordcount.py localhost 9999
 
