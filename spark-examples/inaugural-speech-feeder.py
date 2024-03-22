@@ -36,7 +36,7 @@ def random_delay(avg):
     return random.normalvariate(float(avg), 0.15*float(avg))
 
 from tqdm import tqdm
-for left in tqdm(range(120)):
+for left in tqdm(range(60)):
     time.sleep(1)
 
 for fileid in fileids:

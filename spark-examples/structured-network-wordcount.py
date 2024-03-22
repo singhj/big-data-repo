@@ -37,6 +37,11 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode
 from pyspark.sql.functions import split
 
+def setLogLevel(sc, level):
+    from pyspark.sql import SparkSession
+    spark = SparkSession(sc)
+    spark.sparkContext.setLogLevel(level)
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: structured_network_wordcount.py <hostname> <port>", file=sys.stderr)
@@ -51,7 +56,7 @@ if __name__ == "__main__":
     sc_bak = SparkContext.getOrCreate()
     sc_bak.stop()
     
-    time.sleep(30)
+    time.sleep(15)
     print ('Ready to work!')
 
     ctx = pyspark.SparkContext(appName = "Netcat Wordcount", master="local[*]")
@@ -59,6 +64,8 @@ if __name__ == "__main__":
 
     spark = SparkSession(ctx).builder.getOrCreate()
     sc = spark.sparkContext
+
+    setLogLevel(sc, "WARN")
 
     print ('Session:', spark)
     print ('SparkContext', sc)
