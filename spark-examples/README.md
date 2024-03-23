@@ -6,6 +6,7 @@
 2. Git clone my repo: `git clone https://github.com/singhj/big-data-repo.git`
 3. Install `tqdm`: `sudo apt install python3-tqdm`. `sudo` is disallowed on the Halligan servers. Instead, use `pip3 install tqdm`.
 4. Install `nltk`: `sudo apt install python3-nltk`. `sudo` is disallowed on the Halligan servers. Instead, use `pip3 install nltk`.
+5. Set the `PATH` environment variable: `PATH="$PATH:$HOME/big-data-repo/:$HOME/big-data-repo/spark-examples/"
 5. Test `netcat`:
     * (this is the sender shell). `cd ~/big-data-repo/spark-examples`
     * Start a second (listener) shell, also `cd ~/big-data-repo/spark-examples` there. (Open a second terminal window into the Halligan server to do this).
