@@ -2,6 +2,15 @@
 
 This demo can be run in a Dataproc cluster ***or*** on the Halligan servers at Tufts.
 
+If using the Dataproc cluster, *under-powered configurations may fail in mysterious ways*. However, everything works with these settings:
+1. **Set up Cluster:** Single Node (1 master, 0 workers)
+2. **Configure nodes:**
+    * Machine series: N2,
+    * machine type: n2-standard-4 (4 vCPU, 2 core, 16 GB memory),
+    * Primary disk size: 1200 GB,
+    * Primary disk type: Standard Persistent Disk
+3. **Customize cluster:** Under Internal IP only, uncheck *Configure all instances to have only internal IP addresses*
+
 ## Steps:
 
 1. Log into master machine of the cluster (or open a terminal into a Halligan server).
