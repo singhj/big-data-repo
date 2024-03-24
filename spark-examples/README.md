@@ -22,6 +22,6 @@ This demo can be run in a Dataproc cluster. This code also runs on the Halligan 
     * Stop `netcat` in both shells by hitting `^C`
 8. Set up wordcount pipeline:
     * In the sender shell, ``inaugural-speech-feeder.py | nc -lk 9999``. You have about 30 seconds to start the listener (the next step).
-    * In the listener shell, ``spark-submit `structured-network-wordcount.py` localhost 9999``
+    * In the listener shell, ``spark-submit `which structured-network-wordcount.py` localhost 9999``
     * If it worked, you should see wordcounts for the inaugural speeches appear in the listener.
     * Stop `netcat` in both shells by hitting `^C`
