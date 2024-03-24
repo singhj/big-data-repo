@@ -1,6 +1,6 @@
 # Spark Structured Streaming Demo
 
-This demo can be run in a Dataproc cluster. This code also runs on the Halligan servers at Tufts.
+This demo can be run in a Dataproc cluster ***or*** on the Halligan servers at Tufts.
 
 ## Steps:
 
