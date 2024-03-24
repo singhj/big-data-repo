@@ -97,6 +97,7 @@ if __name__ == "__main__":
         .outputMode('complete')\
         .format('console')\
         .start()
+        # To print more than 20 lines, add .option("numRows", 100000)\ after format('console')\
 
     query.awaitTermination()
 

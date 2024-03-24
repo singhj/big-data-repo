@@ -44,11 +44,14 @@ for fileid in fileids:
     sents = inaugural.sents(fileid)
     print (fileid, '#### #### ####', flush=True, file=sys.stderr)
     print ('|' + fileid + '|', flush=True)
+    sentcount = 0
     for sent in sents:
         rate = 150/60
         words = len(sent)
         delay = random_delay(words/rate)
 
+        sentcount += 1
+        print (fileid, sentcount, flush=True, file=sys.stderr)
         print (clean_text.clean(' '.join(sent)), flush=True)
         time.sleep(delay)
     # break
