@@ -10,6 +10,7 @@ import pandas as pd
 import time, datetime, sys
 import os, pathlib
 
+# Ref: https://github.com/FinanceData/FinanceDataReader#quick-start
 import FinanceDataReader as fdr
 
 tech_df = fdr.DataReader('GOOG, MSFT', '2020')
@@ -30,7 +31,7 @@ scaler = tech_df['GOOG'][init_date]/tech_df['MSFT'][init_date]
 goog  = tech_df['GOOG']
 msft  = tech_df['MSFT']
 tech_df['scaledMSFT'] = msft*scaler
-print (tech_df[0:3])
+# print (tech_df[0:3])
 
 print ('Sending daily GOOG and MSFT prices from %10s to %10s ...' % (str(init_date)[:10], str(last_hist_date)[:10]), flush=True, file=sys.stderr)
 print ("... each day's data sent every %d seconds ..." % (interval), flush=True, file=sys.stderr)
@@ -48,14 +49,17 @@ for date in list(dates):
 exit(0)
 
 # Real Time Prices
+# Eventually we want to make it a day trading platform in the spirit of 
+# https://www.investopedia.com/articles/trading/05/011705.asp
 # !pip install yahoo_fin
+import datetime, time
 from yahoo_fin import stock_info
 
 for t in range(10):
     now = datetime.datetime.now()
     goog_price = stock_info.get_live_price('GOOG')
-    msft_price_adj = stock_info.get_live_price('MSFT') * scaler
-    print ('%10s\t%.4f\t%.4f' % (str(now)[:19], goog_price, msft_price_adj))
+    msft_price = stock_info.get_live_price('MSFT')
+    print ('%10s\t%.4f\t%.4f' % (str(now)[:19], goog_price, msft_price))
     time.sleep(5.0)
 
 exit(0)
