@@ -43,7 +43,7 @@ for left in tqdm(range(init_delay_seconds)):
     time.sleep(0.5)
 
 for date in list(dates):       
-    print ('%10s\t%.4f\t%.4f' % (str(date)[:10], tech_df['GOOG'][date], tech_df['scaledMSFT'][date]))
+    print ('%10s\t%.4f\t%.4f' % (str(date)[:10], tech_df['GOOG'][date], tech_df['scaledMSFT'][date]), flush=True)
     time.sleep(float(interval))
 
 exit(0)
