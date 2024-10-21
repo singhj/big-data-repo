@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
 """message-generation.ipynb
 
@@ -33,7 +34,7 @@ import hashlib
 import heapq
 from collections import Counter
 
-random.seed(314159)
+random.seed(3000)
 
 # Cell 2
 class Event:
