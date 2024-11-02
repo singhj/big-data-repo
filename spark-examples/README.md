@@ -28,12 +28,12 @@ If using the Dataproc cluster, *under-powered configurations may fail in mysteri
     * Any words typed into the sender shell should appear in the listener shell.
     * Stop `netcat` in both shells by hitting `^C`
 7. Set up `netcat` pipeline for inaugural speeches:
-    * In the sender shell, `inaugural-speech-feeder.py | nc -lk 9999`. You have about 30 seconds to start the listener (the next step).
+    * In the sender shell, `~/big-data-repo/spark-examples/inaugural-speech-feeder.py | nc -lk 9999`. You have about 30 seconds to start the listener (the next step).
     * In the listener shell, `nc localhost 9999`
     * If it worked, you should see the inaugural speeches appear in the listener.
     * Stop `netcat` in both shells by hitting `^C`
 8. Set up wordcount pipeline:
-    * In the sender shell, `inaugural-speech-feeder.py | nc -lk 9999`. You have about 30 seconds to start the listener (the next step).
+    * In the sender shell, `~/big-data-repo/spark-examples/inaugural-speech-feeder.py | nc -lk 9999`. You have about 30 seconds to start the listener (the next step).
     * In the listener shell, `spark-submit ~/big-data-repo/spark-examples/structured-network-wordcount.py localhost 9999`
     * If it worked, you should see wordcounts for the inaugural speeches appear in the listener.
     * Stop `netcat` in both shells by hitting `^C`
