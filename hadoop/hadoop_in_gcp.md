@@ -64,23 +64,23 @@ git clone https://github.com/singhj/big-data-repo.git
 
 ## Move Input Files to HDFS
 
-To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/singhj/five-books` 
+To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/jitendra_singh/five-books` 
 
-    hadoop fs -mkdir /user/singhj
-    hadoop fs -mkdir /user/singhj/five-books                             # create directory five-books in HDFS
-    hadoop fs -put ~/big-data-repo/five-books/* /user/singhj/five-books  # put the contents of five-books into HDFS
+    hadoop fs -mkdir /user/jitendra_singh
+    hadoop fs -mkdir /user/jitendra_singh/five-books                             # create directory five-books in HDFS
+    hadoop fs -put ~/big-data-repo/five-books/* /user/jitendra_singh/five-books  # put the contents of five-books into HDFS
 
 Verify that the files got there:
 
-    hadoop fs -ls /user/singhj/five-books
+    hadoop fs -ls /user/jitendra_singh/five-books
 
 ```
 Found 5 items
--rw-r--r--   1 j_singh hadoop     179903 2023-02-08 20:18 /user/singhj/five-books/a_tangled_tale.txt
--rw-r--r--   1 j_singh hadoop     173379 2023-02-08 20:18 /user/singhj/five-books/alice_in_wonderland.txt
--rw-r--r--   1 j_singh hadoop     394246 2023-02-08 20:18 /user/singhj/five-books/sylvie_and_bruno.txt
--rw-r--r--   1 j_singh hadoop     458755 2023-02-08 20:18 /user/singhj/five-books/symbolic_logic.txt
--rw-r--r--   1 j_singh hadoop     135443 2023-02-08 20:18 /user/singhj/five-books/the_game_of_logic.txt
+-rw-r--r--   1 j_singh hadoop     179903 2023-02-08 20:18 /user/jitendra_singh/five-books/a_tangled_tale.txt
+-rw-r--r--   1 j_singh hadoop     173379 2023-02-08 20:18 /user/jitendra_singh/five-books/alice_in_wonderland.txt
+-rw-r--r--   1 j_singh hadoop     394246 2023-02-08 20:18 /user/jitendra_singh/five-books/sylvie_and_bruno.txt
+-rw-r--r--   1 j_singh hadoop     458755 2023-02-08 20:18 /user/jitendra_singh/five-books/symbolic_logic.txt
+-rw-r--r--   1 j_singh hadoop     135443 2023-02-08 20:18 /user/jitendra_singh/five-books/the_game_of_logic.txt
 ```
 ## Running the pre-packaged Hadoop Wordcount
 
@@ -88,15 +88,15 @@ The objective of this step is to verify that we have a good installation of `had
 
 The command is
 
-    hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/singhj/five-books /books-count
+    hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/jitendra_singh/five-books /books-count-0
 
-Hadoop uses hdfs as its (distributed) file system. The directory /books-count is created by the above command and must not already exist!
+Hadoop uses hdfs as its (distributed) file system. The directory /books-count-0 is created by the above command and must not already exist!
 
-Once it has run, copy the contents of /books-count to the cluster master and examine them
+Once it has run, copy the contents of /books-count-0 to the cluster master and examine them
 
 ```
-hadoop fs -get /books-count
-ls -la books-count/
+hadoop fs -get /books-count-0
+ls -la books-count-0
 total 316
 drwxr-xr-x 2 j_singh j_singh   4096 Sep 27 15:48 .
 drwxr-xr-x 6 j_singh j_singh   4096 Sep 27 15:48 ..
@@ -138,39 +138,41 @@ if __name__ == "__main__":
 
 To use it, execute
 ```
-mapred streaming -file ~/big-data-repo/hadoop/mapper.py -mapper mapper.py \
-                 -input /user/singhj/five-books -reducer aggregate \
-                 -output /books-stream-count
+mapred streaming -files /big-data-repo/hadoop/mapper_noll.py -mapper mapper_noll.py \
+                 -input /user/jitendra_singh/five-books -reducer aggregate \
+                 -output /books-count-m-0
 ```
 **Explanation**: the command line arguments should be interpreted as follows. More details [here](https://hadoop.apache.org/docs/r3.2.3/hadoop-streaming/HadoopStreaming.html#Streaming_Command_Options).
 
 | Argument   | Explanation |
 |:-----------|-------------|
-| `-file`    | The absolute pathname of the file on the cluster master. <br/>Make the file (mapper, reducer, or combiner executable) available locally on each worker node |
-| `-mapper`  | The name of the mapper file *sans* pathname, `mapper.py` in this case |
-| `-reducer` | The name of the reducer file *sans* pathname, `reducer.py` in this case |
+| `-files    | The absolute pathname of the files on the cluster master. <br/>Make the file (mapper, reducer, or combiner executable) available locally on each worker node |
+| `-mapper`  | The name of the mapper file *sans* pathname, `mapper_noll.py` in this case |
+| `-reducer` | The name of the reducer file *sans* pathname, `aggregate` for now (default hadoop reducer) |
 | `-input`   | The HDFS pathname of the directory that holds the input files. <br/>The files must already be in HDFS. |
 | `-output`  | The HDFS pathname of the directory that will hold the output files. <br/>The directory is created by the command. |
 
 
-The directory `/books-stream-count` is created in HDFS by the above command and must not already exist! The `mapred` command will fail if the output directory exists. Often you can just rerun the command with a different directory name
+The directory `/books-count-m-0` is created in HDFS by the above command and must not already exist! The `mapred` command will fail if the output directory exists. Often you can just rerun the command with a different directory name
 
-After execution, copy the contents of `/books-stream-count` to the cluster master with
+After execution, copy the contents of `/books-count-m-0` to the cluster master with
 ```
-hadoop fs -get /books-stream-count
+hadoop fs -get /books-count-m-0
 ```
 ## Writing our own reducer
 
-A sample reducer is available in `~/big-data-repo/hadoop/reducer.py`
+The Michael Noll reducer is available in `~/big-data-repo/hadoop/reducer_noll.py`
 
 To use it, execute
 ```
-mapred streaming -file ~/big-data-repo/hadoop/mapper.py  -mapper mapper.py   \
-                 -file ~/big-data-repo/hadoop/reducer.py -reducer reducer.py \
-                 -input /user/singhj/five-books \
-                 -output /books-my-own-counts
-```
-After execution, copy the contents of `/books-my-own-counts` as before.
+mapred streaming -files ~/big-data-repo/hadoop/mapper_noll.py \
+                        ~/big-data-repo/hadoop/reducer_noll.py \
+                 -mapper  mapper_noll.py \
+                 -reducer reducer_noll.py \
+                 -input /user/jitendra_singh/five-books \
+                 -output /books-counts-mr-0
+
+After execution, copy the contents of `/books-counts-mr-0` as before.
 
 **And don’t forget to delete the cluster at the end!**
 
