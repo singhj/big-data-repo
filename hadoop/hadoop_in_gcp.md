@@ -33,6 +33,9 @@ Once you have gone through these steps, you will have created a *baseline config
         * the type of CPU the workers should be, and with how much memory and storage
     ![](https://raw.githubusercontent.com/singhj/big-data-repo/main/hadoop/images/specify_cluster.png)
 
+    * under **Customize cluster** (optional), **(this is not optional!)**, uncheck the checkbox for Internal IP only. Otherwise you won't be able to `ssh` into the cluster master (our next step)!
+    ![](https://raw.githubusercontent.com/singhj/big-data-repo/main/hadoop/images/uncheck_internal_IP_only.png)
+
     Finally, click on Create.
 
 ## `ssh` into the cluster master,
