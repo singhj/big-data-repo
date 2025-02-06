@@ -76,11 +76,11 @@ Verify that the files got there:
 
 ```
 Found 5 items
--rw-r--r--   1 j_singh hadoop     179903 2023-02-08 20:18 /user/jitendra_singh/five-books/a_tangled_tale.txt
--rw-r--r--   1 j_singh hadoop     173379 2023-02-08 20:18 /user/jitendra_singh/five-books/alice_in_wonderland.txt
--rw-r--r--   1 j_singh hadoop     394246 2023-02-08 20:18 /user/jitendra_singh/five-books/sylvie_and_bruno.txt
--rw-r--r--   1 j_singh hadoop     458755 2023-02-08 20:18 /user/jitendra_singh/five-books/symbolic_logic.txt
--rw-r--r--   1 j_singh hadoop     135443 2023-02-08 20:18 /user/jitendra_singh/five-books/the_game_of_logic.txt
+-rw-r--r--   1 jitendra_singh hadoop     179903 2023-02-08 20:18 /user/jitendra_singh/five-books/a_tangled_tale.txt
+-rw-r--r--   1 jitendra_singh hadoop     173379 2023-02-08 20:18 /user/jitendra_singh/five-books/alice_in_wonderland.txt
+-rw-r--r--   1 jitendra_singh hadoop     394246 2023-02-08 20:18 /user/jitendra_singh/five-books/sylvie_and_bruno.txt
+-rw-r--r--   1 jitendra_singh hadoop     458755 2023-02-08 20:18 /user/jitendra_singh/five-books/symbolic_logic.txt
+-rw-r--r--   1 jitendra_singh hadoop     135443 2023-02-08 20:18 /user/jitendra_singh/five-books/the_game_of_logic.txt
 ```
 ## Running the pre-packaged Hadoop Wordcount
 
@@ -96,14 +96,19 @@ Once it has run, copy the contents of /books-count-0 to the cluster master and e
 
 ```
 hadoop fs -get /books-count-0
+
 ls -la books-count-0
-total 316
-drwxr-xr-x 2 j_singh j_singh   4096 Sep 27 15:48 .
-drwxr-xr-x 6 j_singh j_singh   4096 Sep 27 15:48 ..
--rw-r--r-- 1 j_singh j_singh      0 Sep 27 15:48 _SUCCESS
--rw-r--r-- 1 j_singh j_singh 313829 Sep 27 15:48 part-r-00000
 ```
-Depending on the configuration and the problem, you may get just one `part-r-00000` or many `part-r-00000` files.
+
+```
+total 316
+drwxr-xr-x 2 jitendra_singh jitendra_singh   4096 Sep 27 15:48 .
+drwxr-xr-x 6 jitendra_singh jitendra_singh   4096 Sep 27 15:48 ..
+-rw-r--r-- 1 jitendra_singh jitendra_singh      0 Sep 27 15:48 _SUCCESS
+-rw-r--r-- 1 jitendra_singh jitendra_singh 313829 Sep 27 15:48 part-r-00000
+```
+
+Depending on the configuration and the problem, you may get an arbitrary number of `part-r-0000*` files.
 
 
 ## Writing our own mapper
@@ -138,8 +143,10 @@ if __name__ == "__main__":
 
 To use it, execute
 ```
-mapred streaming -files /big-data-repo/hadoop/mapper_noll.py -mapper mapper_noll.py \
-                 -input /user/jitendra_singh/five-books -reducer aggregate \
+mapred streaming -files /home/jitendra_singh/big-data-repo/hadoop/mapper_noll.py \
+                 -mapper /home/jitendra_singh/big-data-repo/hadoop/mapper_noll.py \
+                 -input /user/jitendra_singh/five-books \
+                 -reducer aggregate \
                  -output /books-count-m-0
 ```
 **Explanation**: the command line arguments should be interpreted as follows. More details [here](https://hadoop.apache.org/docs/r3.2.3/hadoop-streaming/HadoopStreaming.html#Streaming_Command_Options).
@@ -147,8 +154,8 @@ mapred streaming -files /big-data-repo/hadoop/mapper_noll.py -mapper mapper_noll
 | Argument   | Explanation |
 |:-----------|-------------|
 | `-files    | The absolute pathname of the files on the cluster master. <br/>Make the file (mapper, reducer, or combiner executable) available locally on each worker node |
-| `-mapper`  | The name of the mapper file *sans* pathname, `mapper_noll.py` in this case |
-| `-reducer` | The name of the reducer file *sans* pathname, `aggregate` for now (default hadoop reducer) |
+| `-mapper`  | The name of the mapper file, `mapper_noll.py` in this case |
+| `-reducer` | The name of the reducer file, `aggregate` for now (default hadoop reducer) |
 | `-input`   | The HDFS pathname of the directory that holds the input files. <br/>The files must already be in HDFS. |
 | `-output`  | The HDFS pathname of the directory that will hold the output files. <br/>The directory is created by the command. |
 
@@ -165,10 +172,9 @@ The Michael Noll reducer is available in `~/big-data-repo/hadoop/reducer_noll.py
 
 To use it, execute
 ```
-mapred streaming -files ~/big-data-repo/hadoop/mapper_noll.py \
-                        ~/big-data-repo/hadoop/reducer_noll.py \
-                 -mapper  mapper_noll.py \
-                 -reducer reducer_noll.py \
+mapred streaming -files /home/jitendra_singh/big-data-repo/hadoop/mapper_noll.py,/home/jitendra_singh/big-data-repo/hadoop/reducer_noll.py \
+                 -mapper  /home/jitendra_singh/big-data-repo/hadoop/mapper_noll.py \
+                 -reducer /home/jitendra_singh/big-data-repo/hadoop/reducer_noll.py \
                  -input /user/jitendra_singh/five-books \
                  -output /books-counts-mr-0
 
@@ -185,8 +191,14 @@ Students have run into the following hurdles in the past:
 * **Versions.** Make sure that your documentation on the web corresponds to the version of your Hadoop
 
 ```
-    j_singh@cluster-8bca-m:~$ hadoop version
-    Hadoop 3.2.3
+jitendra_singh@cluster-e140-m:~$ hadoop version
+    Hadoop 3.3.6
+    Source code repository https://bigdataoss-internal.googlesource.com/third_party/apache/hadoop -r 504ae3bf1cb5506ac7e651ef8de5a1fb88e9ce73
+    Compiled by bigtop on 2025-01-23T21:16Z
+    Compiled on platform linux-x86_64
+    Compiled with protoc 3.7.1
+    From source with checksum 1c64772fae4e6cb4d3f95a08473ed58
+    This command was run using /usr/lib/hadoop/hadoop-common-3.3.6.jar
 ```
 *    **Line endings.** Program files that were created on Windows machines often have Windows-style line endings that Hadoop doesn’t like. [Here](https://www.maketecheasier.com/convert-files-from-linux-format-windows/) are some ways of fixing it.
 
