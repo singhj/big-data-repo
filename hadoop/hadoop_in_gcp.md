@@ -1,6 +1,6 @@
 # Hadoop in GCP
 
-The GCP service that includes Hadoop (and Spark) is called DataProc. To launch it and use it, you need to
+The GCP service that includes Hadoop (and Spark) is called DataProc. To launch it and use it, we need to
 
 1. Obtain a Cluster,
     * specify where (i.e., what region) it should run,
@@ -11,10 +11,10 @@ The GCP service that includes Hadoop (and Spark) is called DataProc. To launch i
 3. Stage input files onto the cluster master, 
 4. Move input files into HDFS,
 5. Verify that the default (prepackaged) Hadoop runs without errors,
-6. Verify that Hadoop Streaming, written with your own mapper but the default reducer, runs without errors,
+6. Verify that Hadoop Streaming, written with our own mapper but the default reducer, runs without errors,
 7. Replace the default reducer with your own reducer and verify that it works without errors.
 
-Once you have gone through these steps, you will have created a *baseline configuration* and return to it when something goes awry and you need to begin again!
+This is how we can return to a baseline when something goes awry and we need to start afresh!
 
 ## Obtain a Cluster
 
