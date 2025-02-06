@@ -59,12 +59,13 @@ There are multiple systems involved. Always be aware of where you are:
 * What is your current directory?
 * Use `gsutil cp` (or `cURL`, or `git clone`, etc.) to bring files to the Cluster Master, for example,
 ```
+# Bring books files from Github to the Cluster Master
 git clone https://github.com/singhj/big-data-repo.git
 ```
 
-## Move Input Files to HDFS
+## Move books Files to HDFS
 
-To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/jitendra_singh/five-books` 
+To move files on Cluster Master, into HDFS, use `hadoop fs -put ~/big-data-repo/five-books /user/jitendra_singh/five-books`, but first create a directory `/user/jitendra_singh/five-books` in HDFS for them.
 
     hadoop fs -mkdir /user/jitendra_singh
     hadoop fs -mkdir /user/jitendra_singh/five-books                             # create directory five-books in HDFS
@@ -90,7 +91,7 @@ The command is
 
     hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/jitendra_singh/five-books /books-count-0
 
-Hadoop uses hdfs as its (distributed) file system. The directory /books-count-0 is created by the above command and must not already exist!
+Hadoop uses hdfs as its (distributed) file system. The directory /books-count-0 is created by the above command and must not already exist! *If the above command needs to be rerun, either delete the directory or change the command to write to a different directory, say `/books-count-1`*
 
 Once it has run, copy the contents of /books-count-0 to the cluster master and examine them
 
@@ -203,5 +204,5 @@ jitendra_singh@cluster-e140-m:~$ hadoop version
 ```
 *    **Line endings.** Program files that were created on Windows machines often have Windows-style line endings that Hadoop doesn’t like. [Here](https://www.maketecheasier.com/convert-files-from-linux-format-windows/) are some ways of fixing it.
 
-The books files are now on the cluster master.
+
 
