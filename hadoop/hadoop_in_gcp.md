@@ -177,7 +177,7 @@ mapred streaming -files /home/jitendra_singh/big-data-repo/hadoop/mapper_noll.py
                  -reducer /home/jitendra_singh/big-data-repo/hadoop/reducer_noll.py \
                  -input /user/jitendra_singh/five-books \
                  -output /books-counts-mr-0
-
+```
 After execution, copy the contents of `/books-counts-mr-0` as before.
 
 **And don’t forget to delete the cluster at the end!**
@@ -188,7 +188,8 @@ As before, depending on the configuration and the problem, you may get just one 
 
 Students have run into the following hurdles in the past:
 
-* **Versions.** Make sure that your documentation on the web corresponds to the version of your Hadoop
+* **Versions.** Make sure that your documentation on the web corresponds to the version of your Hadoop. The next few lines
+provide the version info on what was running in GCP in Feb 2025.
 
 ```
 jitendra_singh@cluster-e140-m:~$ hadoop version
