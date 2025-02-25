@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""mapper_noll.py"""
+
 import sys, re
 import random
 
