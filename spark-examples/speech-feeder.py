@@ -28,7 +28,7 @@ print (sys.path, file=sys.stderr)
 import clean_text
 
 nltk.download('inaugural')
-nltk.download('punkt')
+nltk.download('punkt_tab')
 from nltk.corpus import inaugural
 fileids = nltk.corpus.inaugural.fileids()
 
